@@ -1,10 +1,6 @@
-FROM joshuacox/ubuntu:14.04
+FROM joshuacox/ubuntu-nginx
 MAINTAINER Josh Cox "josh at webhosting coop"
 
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv C3173AA6
-RUN  echo "deb http://ppa.launchpad.net/brightbox/ruby-ng/ubuntu trusty main" >> /etc/apt/sources.list
-RUN  apt-key adv --keyserver keyserver.ubuntu.com --recv C300EE8C
-RUN  echo "deb http://ppa.launchpad.net/nginx/stable/ubuntu trusty main" >> /etc/apt/sources.list
 RUN apt-get update
 RUN apt-get install -y supervisor logrotate nginx mysql-client postgresql-client \
       imagemagick subversion git cvs bzr mercurial rsync ruby2.1 locales openssh-client \
