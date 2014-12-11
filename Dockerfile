@@ -1,5 +1,5 @@
-FROM sameersbn/ubuntu:14.04.20141026
-MAINTAINER sameer@damagehead.com
+FROM joshuacox/ubuntu:14.04
+MAINTAINER Josh Cox "josh at webhosting coop"
 
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv C3173AA6 \
  && echo "deb http://ppa.launchpad.net/brightbox/ruby-ng/ubuntu trusty main" >> /etc/apt/sources.list \
@@ -23,11 +23,11 @@ ADD assets/config/ /app/setup/config/
 ADD assets/init /app/init
 RUN chmod 755 /app/init
 
-EXPOSE 80
-EXPOSE 443
+#EXPOSE 80
+#EXPOSE 443
 
-VOLUME ["/home/redmine/data"]
-VOLUME ["/var/log/redmine"]
+#VOLUME ["/home/redmine/data"]
+#VOLUME ["/var/log/redmine"]
 
-ENTRYPOINT ["/app/init"]
-CMD ["app:start"]
+#ENTRYPOINT ["/app/init"]
+#CMD ["app:start"]
