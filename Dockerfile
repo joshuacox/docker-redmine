@@ -1,7 +1,7 @@
 FROM joshuacox/ubuntu-nginx
 MAINTAINER Josh Cox "josh at webhosting coop"
 
-ENV docker-redmine-REFERSHED_AT 20141211
+ENV docker-redmine-REFRESHED_AT 20150311
 RUN apt-get update
 RUN apt-get install -y supervisor logrotate nginx mysql-client postgresql-client \
       imagemagick subversion git cvs bzr mercurial rsync ruby2.1 locales openssh-client \
@@ -22,7 +22,6 @@ RUN chmod 755 /app/init
 
 #EXPOSE 80
 #EXPOSE 443
-
 
 #VOLUME ["/home/redmine/data"]
 #VOLUME ["/var/log/redmine"]
