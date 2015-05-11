@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-REDMINE_VERSION=3.0.0
+REDMINE_VERSION=3.0.2
 INSTALL_DIR="/home/redmine/redmine"
 DATA_DIR="/home/redmine/data"
 LOG_DIR="/var/log/redmine"
@@ -70,7 +70,7 @@ fi
 # some gems complain about missing database.yml, shut them up!
 cp config/database.yml.example config/database.yml
 
-bundle install --without development tests --path vendor/bundle
+bundle install -j$(nproc) --without development tests --path vendor/bundle
 
 # finalize redmine installation
 mkdir -p tmp tmp/pdf tmp/pids/ tmp/sockets/
