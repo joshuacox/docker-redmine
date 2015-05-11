@@ -1,4 +1,4 @@
-FROM joshuacox/ubuntu-nginx
+FROM joshuacox/ubuntu
 MAINTAINER Josh Cox "josh at webhosting coop"
 ENV DOCKER_REDMINE_UPDATED 20150311
 
@@ -29,7 +29,6 @@ ADD assets/init /app/init
 RUN chmod 755 /app/init
 
 EXPOSE 80
-EXPOSE 443
 
 VOLUME ["/home/redmine/data"]
 VOLUME ["/var/log/redmine"]
