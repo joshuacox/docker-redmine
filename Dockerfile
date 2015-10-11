@@ -1,6 +1,16 @@
-FROM joshuacox/ubuntu
+FROM quay.io/sameersbn/ubuntu:14.04.20151011
 MAINTAINER Josh Cox "josh at webhosting coop"
 ENV DOCKER_REDMINE_UPDATED 20150520
+
+ENV REDMINE_VERSION=3.1.1 \
+    REDMINE_USER="redmine" \
+    REDMINE_HOME="/home/redmine" \
+    REDMINE_LOG_DIR="/var/log/redmine" \
+    SETUP_DIR="/var/cache/redmine" \
+    RAILS_ENV=production
+
+ENV REDMINE_INSTALL_DIR="${REDMINE_HOME}/redmine" \
+    REDMINE_DATA_DIR="${REDMINE_HOME}/data"
 
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv E1DD270288B4E6030699E45FA1715D88E1DF1F24 \
  && echo "deb http://ppa.launchpad.net/git-core/ppa/ubuntu trusty main" >> /etc/apt/sources.list \
@@ -11,28 +21,25 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv E1DD270288B4E6030699E45F
  && wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
  && echo 'deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main' > /etc/apt/sources.list.d/pgdg.list \
  && apt-get update \
- && apt-get install -y supervisor logrotate nginx mysql-client postgresql-client \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y supervisor logrotate nginx mysql-client postgresql-client \
       imagemagick subversion git cvs bzr mercurial rsync ruby2.1 locales openssh-client \
       gcc g++ make patch pkg-config ruby2.1-dev libc6-dev zlib1g-dev libxml2-dev \
       libmysqlclient18 libpq5 libyaml-0-2 libcurl3 libssl1.0.0 \
       libxslt1.1 libffi6 zlib1g gsfonts \
  && update-locale LANG=C.UTF-8 LC_MESSAGES=POSIX \
  && gem install --no-document bundler \
- && rm -rf /var/lib/apt/lists/* # 20150504
+ && rm -rf /var/lib/apt/lists/*
 
-ADD assets/setup/ /app/setup/
-RUN chmod 755 /app/setup/install
-RUN /app/setup/install
+COPY assets/setup/ ${SETUP_DIR}/
+RUN bash ${SETUP_DIR}/install.sh
 
-ADD assets/config/ /app/setup/config/
-ADD assets/init /app/init
-RUN chmod 755 /app/init
+COPY assets/config/ ${SETUP_DIR}/config/
+COPY entrypoint.sh /sbin/entrypoint.sh
+RUN chmod 755 /sbin/entrypoint.sh
 
-EXPOSE 80
+EXPOSE 80/tcp 443/tcp
 
-VOLUME ["/home/redmine/data"]
-VOLUME ["/var/log/redmine"]
-
-WORKDIR /home/redmine/redmine
-ENTRYPOINT ["/app/init"]
+VOLUME ["${REDMINE_DATA_DIR}", "${REDMINE_LOG_DIR}"]
+WORKDIR ${REDMINE_INSTALL_DIR}
+ENTRYPOINT ["/sbin/entrypoint.sh"]
 CMD ["app:start"]

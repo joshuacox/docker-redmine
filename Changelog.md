@@ -1,7 +1,23 @@
 # Changelog
 
-**latest**
+**3.1.1**
+- renamed `plugins/init` script to `plugins/post-install.sh`
+- added `plugins/pre-install.sh` script to execute commands before plugin installation
+- redmine: upgrade to v.3.1.1
+
+**3.1.0-2**
+- added support for receiving emails via IMAP
+
+**3.1.0**
+- redmine: upgrade to v.3.1.0
+
+**3.0.4**
+- added `SMTP_TLS` configuration parameter
+- redmine: upgrade to v.3.0.4
+
+**3.0.3-1**
 - install: fix typo in `bundle install` command :facepalm:
+- base image update to fix SSL vulnerability
 
 **3.0.3**
 - redmine: upgrade to v.3.0.3
