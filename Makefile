@@ -36,3 +36,11 @@ purge: stop
 
 logs:
 	@docker logs -f redmine-demo
+
+examples: redmine.env postgres.env
+
+redmine.env:
+	cp redmine.env.example redmine.env
+
+postgres.env:
+	cp postgres.env.example postgres.env

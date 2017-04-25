@@ -1,3 +1,5 @@
 *.zip
 *.tar.gz
 *.gem
+redmine.env
+postgres.env
